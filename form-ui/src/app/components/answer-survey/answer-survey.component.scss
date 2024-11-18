@@ -1,0 +1,33 @@
+.title{
+    font-weight: bold;
+    font-size: 50px;
+    color: #182646;
+}
+
+.label-fields{
+    font-weight: bold;
+    color: #0cb887;
+}
+
+.card-header{
+    background-color: #0cb887;
+    border-bottom: 0;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.card-footer{
+    background-color: transparent;
+    border-top: 0
+}
+
+.card{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.btn-create{
+    background-color: #0cb887;
+    color: white;
+    font-weight: bold;
+}

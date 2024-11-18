@@ -1,0 +1,30 @@
+.lateral-menu{
+    min-height: 98vh;
+    height: 100%;
+    width: auto;
+    padding-top: 5rem;
+}
+
+:host{
+    width: 100%;
+}
+
+.menu-background{
+    background-color: #182646;
+}
+
+.text-style{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.title{
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+}

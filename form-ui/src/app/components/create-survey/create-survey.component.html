@@ -1,0 +1,58 @@
+<div class="col-12">
+    <div class="row justify-content-center">
+      <div class="col-8" [formGroup]="form">
+        <label class="title py-3">Create Survey</label>
+        <div class="mb-3">
+          <label for="name" class="form-label label-fields">Name</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label label-fields">Description</label>
+          <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
+        </div>
+        <button type="button" class="btn btn-create" (click)="createSurvey()">Create Survey</button>
+      </div>
+      <div class="col-8 d-flex flex-column">
+        <label class="title py-3">List of surveys</label>
+        @for(item of surveys; track item.id; let idx = $index){
+          <div class="card mt-3">
+            <div class="card-header">
+              {{item.name}}
+            </div>
+            <div class="card-body" style="height: 5rem">
+              <div class="row w-100">
+                <div class="col-8 align-items-center d-flex">
+                  <p class="card-text">{{item.description}}</p>
+                </div>
+                <div class="col-4 align-items-center flex-row">
+                  <div class="row w-100">
+                    <div class="col-6 d-flex justify-content-center">
+                      <label>Update</label>
+                    </div>
+                    <div class="col-6 d-flex justify-content-center">
+                      <label>Delete</label>
+                    </div>
+                  </div>
+                  <div class="row w-100">
+                    <div class="col-6 d-flex justify-content-center">
+                      <i class="fa-solid fa-pen pt-2" style="color: #0cb887; transform: scale(1.5);" (click)="navigateToUpdate(idx)"></i>
+                    </div>
+                    <div class="col-6 d-flex justify-content-center">
+                      <i class="fa-solid fa-trash pt-2" style="color: #f62421; transform: scale(1.5);"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-muted text-start">
+              Created for {{item.creator_user.username}} at {{item.date_created.split('T')[0]}}
+            </div>
+          </div>
+        } @empty {
+          <label>There are no surveys</label>
+        }
+
+      </div>
+    </div>
+  </div>
+  

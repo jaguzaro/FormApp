@@ -1,0 +1,58 @@
+<div class="col-12 d-flex align-items-center page-background" style="height: 100vh;">
+  <div class="row w-100 justify-content-center">
+    <div class="col-12 justify-content-center d-flex pb-4" *ngIf="login">
+      <label class="title animate__animated animate__slideInUp">Sign In</label>
+    </div>
+    <div class="col-3 px-0 container-login pb-4" #container_login *ngIf="login">
+      <div class="row pt-5">
+        <div class="col-12">
+          <div class="row justify-content-center">
+            <div class="col-8" [formGroup]="loginForm">
+              <div class="row pb-4">
+                <label class="pb-2 px-0 font-bold">User</label>
+                <input type="text" class="custom-transparent-input" placeholder="username" formControlName="username">
+              </div>
+              <div class="row pb-4">
+                <label class="pb-2 px-0 font-bold">Password</label>
+                <input type="password" class="custom-transparent-input" placeholder="user123" formControlName="password">
+              </div>
+              <div class="row pt-4 pb-4">
+                <button class="btn btn-dark" (click)="loginUser()">Login</button>
+                <label class="pt-4 px-0 font-bold cursor-pointer" (click)="showRegister()">Don't have a user? Create one here.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 justify-content-center d-flex pb-4" *ngIf="register">
+      <label class="title animate__animated animate__slideInUp">Register User</label>
+    </div>
+    <div class="col-3 px-0 container-login pb-4" #container_registerUser *ngIf="register">
+      <div class="row pt-5">
+        <div class="col-12">
+          <div class="row justify-content-center">
+            <div class="col-8" [formGroup]="registerForm">
+              <div class="row pb-4">
+                <label class="pb-2 px-0 font-bold">Username</label>
+                <input type="text" class="custom-transparent-input" placeholder="username" formControlName="username">
+              </div>
+              <div class="row pb-4">
+                <label class="pb-2 px-0 font-bold">Email</label>
+                <input type="email" class="custom-transparent-input" placeholder="user@email.com" formControlName="email" >
+              </div>
+              <div class="row pb-4">
+                <label class="pb-2 px-0 font-bold">Password</label>
+                <input type="password" class="custom-transparent-input" placeholder="user123" formControlName="password">
+              </div>
+              <div class="row pt-4 pb-4">
+                <button class="btn btn-dark" (click)="registerUser()">Register</button>
+                <label class="pt-4 px-0 font-bold cursor-pointer" (click)="showLogin()">If you already have an account, log in here.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

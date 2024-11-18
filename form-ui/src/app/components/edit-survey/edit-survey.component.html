@@ -1,0 +1,81 @@
+<div class="col-12">
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <label class="title">Create Survey</label>
+        <div class="mb-3">
+          <label for="name" class="form-label label-fields">Name</label>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label label-fields">Description</label>
+          <textarea class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <button type="button" class="btn btn-create">Edit Survey</button>
+      </div>
+
+      <div class="col-8 separator mt-5 mb-4"></div>
+
+      <div class="col-8 d-flex flex-column">
+        <label class="title">Add Fields</label>
+        <div class="row">
+            <div class="col-6 flex-column d-flex">
+                <label for="name_field" class="form-label label-fields">Name of field</label>
+                <textarea class="form-control" id="name_field" rows="2"></textarea>
+            </div>
+            <div class="col-2 flex-column d-flex">
+                <label for="type_field" class="form-label label-fields">Type of field</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Select one</option>
+                    <option value="1">Number</option>
+                    <option value="2">Text</option>
+                    <option value="3">Date</option>
+                    <option value="3">Multiple Choise</option>
+                    <option value="3">Single Choise</option>
+                </select>
+            </div>
+            <div class="col-2 flex-column d-flex align-items-center">
+                <label for="required_field" class="form-label label-fields">Is Required</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
+            </div>
+            <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                <i class="fa-solid fa-square-plus" style="color: #182646; transform: scale(1.8);"></i>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-8 separator mt-5 mb-4"></div>
+
+      <div class="col-8 d-flex flex-column">
+        <label class="title">Modify Fields</label>
+        <div class="row">
+            <div class="col-6 flex-column d-flex">
+                <label for="name_field_u" class="form-label label-fields">Name of field</label>
+                <textarea class="form-control" id="name_field_u" rows="2"></textarea>
+            </div>
+            <div class="col-2 flex-column d-flex">
+                <label for="type_field" class="form-label label-fields">Type of field</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option Selected value="1">Number</option>
+                    <option value="2">Text</option>
+                    <option value="3">Date</option>
+                    <option value="3">Multiple Choise</option>
+                    <option value="3">Single Choise</option>
+                </select>
+            </div>
+            <div class="col-2 flex-column d-flex align-items-center">
+                <label for="required_field" class="form-label label-fields">Is Required</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-center align-items-center">
+                <i class="fa-solid fa-pen pe-5" style="color: #0cb887; transform: scale(1.5);"></i>
+                <i class="fa-solid fa-trash" style="color: #f62421; transform: scale(1.5);"></i>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
