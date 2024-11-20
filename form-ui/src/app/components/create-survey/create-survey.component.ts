@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SurveyService } from '../../services/survey.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Surveys } from '../../interfaces/form.interface';
 
 @Component({
   selector: 'app-create-survey',
@@ -53,16 +54,4 @@ export class CreateSurveyComponent implements OnInit {
     this.router.navigate(['/dashboard/edit-survey', this.surveys[idx]])
   }
 
-}
-
-interface Surveys{
-  id: number,
-  name: string,
-  description: string,
-  date_created: string,
-  enabled: number,
-  creator_user: {
-    id: number,
-    username: string
-  }
 }

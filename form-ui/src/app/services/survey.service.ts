@@ -14,7 +14,7 @@ export class SurveyService {
     Authorization: this.TOKEN ? this.TOKEN: ''
   }
 
-  urlBackend = 'http://18.216.104.12:3000/'
+  urlBackend = 'http://localhost:3000/'
 
 
   createSurvey(data: any): Promise<any> {
@@ -36,6 +36,20 @@ export class SurveyService {
     return fetch(url, {
       method: 'GET',
       headers: this.headers,
+    })
+    .then(response => response.json())
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      throw error;
+    });
+  }
+
+  findSurvey(data: any): Promise<any>{
+    const url = this.urlBackend + 'surveys/find-survey'
+    return fetch(url, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify(data)
     })
     .then(response => response.json())
     .catch(error => {
