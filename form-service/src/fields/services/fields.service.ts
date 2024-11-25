@@ -18,15 +18,45 @@ export class FieldsService {
 	}
 
 	async findAll(): Promise<Field[]> {
-		return this.fieldsRepository.find();
+		const result = await this.fieldsRepository.query(`
+			SELECT 
+			  f.id,
+			  f.survey_id,
+			  f.name,
+			  f.type,
+			  f.is_required,
+			  fo.id AS option_id,
+			  fo.response AS option_response
+			FROM Fields f
+			LEFT JOIN Field_options fo ON f.id = fo.field_id`);
+		
+		return result;
 	}
 
-	async findOne(id: number): Promise<Field> {
-		const field = await this.fieldsRepository.findOne({ where: { id } });
-		if (!field) {
-			throw new Error(`Field with ID ${id} not found`);
+	async find(id: number): Promise<Field[]> {
+		const result = await this.fieldsRepository.query(
+			`
+			SELECT 
+				f.id,
+				f.survey_id,
+				f.name,
+				f.type,
+				f.is_required,
+				fo.id AS option_id,
+				fo.response AS option_response
+			FROM Fields f
+			LEFT JOIN Field_options fo ON f.id = fo.field_id
+			WHERE f.survey_id = ${id}
+			`, 
+			[id]
+		);
+		console.log(result)
+	
+		if (result.length === 0) {
+			throw new Error(`Field with survey_id ${id} not found`);
 		}
-		return field;
+		
+		return result;
 	}
 
 	async update(id: number, updateFieldDto: UpdateFieldDto): Promise<Field> {

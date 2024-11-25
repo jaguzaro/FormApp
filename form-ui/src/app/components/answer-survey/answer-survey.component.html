@@ -1,31 +1,66 @@
-<div class="col-12">
-    <div class="row justify-content-center">
-        <div class="col-8 d-flex flex-column">
-            <label class="title">Survey's name</label>
-            <label class="mt-3">Description</label>
-        </div>
-
-        <div class="col-8 separator mt-5 mb-4"></div>
-
-
-        <div class="col-8 d-flex flex-column pb-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-1">
-                            <span>1.</span>
-                        </div>
-                        <div class="col-11">
-                            <label>Field</label>
+<div class="row justify-content-center py-5 page-background" *ngIf="viewSurvey">
+    <div class="col-8 d-flex flex-column align-items-center">
+        <label class="title">{{survey?.name}}</label>
+        <label class="mt-3">{{survey?.description}}</label>
+    </div>
+    <div class="row justify-content-center mt-5" *ngIf="viewFields">
+        <div class="col-5" [formGroup]="fieldsForm">
+            <div class="w-auto d-flex align-items-center flex-column" formArrayName="fields">
+                @for(field of fieldsArray.controls; track field; let idx = $index){
+                    <div class="col-12 d-flex flex-column pb-5">
+                        <div class="card p-4">
+                            <div class="card-body" [formGroupName]="idx">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <span>{{idx + 1}}</span>
+                                    </div>
+                                    <div class="col-11">
+                                        <label>{{field.get('name')?.value}} <span *ngIf="fields[idx].is_required" style="color: red; font-weight: 600;">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-1"></div>
+                                    <div class="col-11">
+                                        @switch(field.get('type')?.value){
+                                            @case('Text'){
+                                                <input class="w-100 form-control" type="text" formControlName="response">
+                                            }
+                                            @case('Number'){
+                                                <input class="w-100 form-control" type="number" formControlName="response">
+                                            }
+                                            @case('Date'){
+                                                <input class="w-10 form-control" type="date" formControlName="response">
+                                            }
+                                            @case('MultipleChoice'){
+                                                @for(option of asFormArray(idx).controls; track option; let opt_idx = $index){
+                                                    <section formArrayName="options">
+                                                        <div class="form-check" [formGroupName]="opt_idx">
+                                                            <input class="form-check-input" type="checkbox" formControlName="checked" id="flex_{{idx}}" (change)="onCheckboxChange($event, idx, option.get('text')?.value)">
+                                                            <label class="form-check-label" for="flex_{{idx}}">
+                                                                {{option.get('text')?.value}}
+                                                            </label>
+                                                        </div>
+                                                    </section>
+                                                }
+                                            }
+                                            @case('SingleChoice'){
+                                                <select
+                                                    class="form-select"
+                                                    formControlName="response"
+                                                >
+                                                @for(option of asFormArray(idx).controls; track option; let idx = $index){
+                                                    <option value="{{option.get('text')?.value}}">{{option.get('text')?.value}}</option>
+                                                }
+                                                </select>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-11">
-                            <input class="w-100">
-                        </div>
-                    </div>
-                </div>
+                }
+                <button type="button" class="btn btn-primary mt-3" (click)="submitForm()">Submit</button>
             </div>
         </div>
     </div>

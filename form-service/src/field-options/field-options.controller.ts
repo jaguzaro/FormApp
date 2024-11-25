@@ -61,7 +61,7 @@ export class FieldOptionsController {
 	}
 
 	@UseGuards(AuthGuard)
-	@Get('find-field-option')
+	@Post('find-field-option')
 	async findOne(
 		@Body() body: { id: number },
 		@Response() res

@@ -1,18 +1,16 @@
-<div class="lateral-menu menu-background">
-    <div class="col-12 pb-5 px-4">
-      <label class="title">FORM APP</label>
+<section class="lateral-menu menu-background">
+  <div class="col-12 flex-row d-flex align-items-center px-3 pb-5">
+    <div class="square justify-content-center align-items-center d-flex">
+      <span class="logo">FA</span>
     </div>
-    <div class="col-12">
-      <div
-        class="row justify-content-center pb-5"
-        *ngFor="let item of menuItems"
-      >
-        <div class="col-2 cursor-pointer align-items-center d-flex">
-          <i class="fa-solid {{ item.iconClass }} text-style" (click)="goTo(item.path)"></i>
-        </div>
-        <div class="col-8 cursor-pointer align-items-center d-flex">
-          <span class="text-style">{{ item.label }}</span>
-        </div>
+    <span class="text-head ps-3">Form App</span>
+  </div>
+  @for(item of menuItems; track item.label){
+    <div class="col-12 flex-row d-flex align-items-center px-3">
+      <div class="w-100 px-4 py-4 item-container" role="button" (click)="goTo(item.path)">
+        <i class="fa-solid {{item.iconClass}} text-style"></i>
+        <span class="ps-3">{{item.label}}</span>
       </div>
     </div>
-  </div>
+  }
+</section>

@@ -28,3 +28,36 @@
     font-size: 30px;
     color: white;
 }
+
+.square{
+    width: 60px;
+    height: 60px;
+    background-color: #0cb887;
+    border-radius: 10px;
+}
+
+.logo{
+    font-size: 1.8rem;
+    color: white;
+    font-weight: bold;
+}
+
+.text-head{
+    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+}
+
+.item-container{
+    border-radius: 10px;
+}
+
+.item-container:hover{
+    background-color: #67728d;
+}
+
+.item-container span{
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 400;
+}

@@ -16,6 +16,10 @@ export default (): TypeOrmModuleOptions => ({
 	synchronize: false,
 	logging: true,
 	extra: {
-		trustServerCertificate: true
+		trustServerCertificate: true,
+		pool: {
+			max: 20,
+			idleTimeoutMillis: 30000
+		}
 	}
 });

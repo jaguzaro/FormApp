@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss'
+  styleUrls: ['./menu.component.scss', '../../../styles.scss']
 })
 export class MenuComponent {
 
@@ -15,7 +15,7 @@ export class MenuComponent {
 
   menuItems = [
     { iconClass: 'fa-house', label: 'Manage Surveys', path: 'surveys' },
-    { iconClass: 'fa-list', label: 'View Surveys', path: 'view-surveys' },
+    { iconClass: 'fa-list', label: 'View Surveys', path: 'list-surveys' },
     { iconClass: 'fa-right-from-bracket', label: 'Log out', path: 'login' },
   ];
 

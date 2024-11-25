@@ -23,7 +23,7 @@ export class FieldOptionsService {
 
 	async findOne(id: number): Promise<FieldOption> {
 		const fieldOption = await this.fieldOptionsRepository.findOne({
-			where: { id: id }
+			where: { field_id: id }
 		});
 		if (!fieldOption) {
 			throw new NotFoundException(`FieldOption with ID ${id} not found`);

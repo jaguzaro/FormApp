@@ -57,4 +57,32 @@ export class SurveyService {
       throw error;
     });
   }
+
+  updateSurvey(data: any): Promise<any>{
+    const url = this.urlBackend + 'surveys/update-survey'
+    return fetch(url, {
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      throw error;
+    });
+  }
+
+  deleteSurvey(data: any): Promise<any>{
+    const url = this.urlBackend + 'surveys/delete-survey'
+    return fetch(url, {
+      method: 'DELETE',
+      headers: this.headers,
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      throw error;
+    });
+  }
 }

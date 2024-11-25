@@ -15,19 +15,35 @@ import { AuthGuard } from 'src/auth/auth.guardias';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { Field } from './entities/field.entity';
 import { UpdateFieldDto } from './dto/update-field.dto';
+import { FieldOptionsService } from 'src/field-options/services/field-options.service';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('fields')
 export class FieldsController {
-	constructor(private readonly fieldsService: FieldsService) {}
+	constructor(private readonly fieldsService: FieldsService, private readonly fieldOptionsService: FieldOptionsService) {}
 
 	@UseGuards(AuthGuard)
 	@Post('create-field')
+	@ApiOperation({ summary: 'Create a new field' })
+    @ApiBody({ type: CreateFieldDto })
+    @ApiResponse({
+        status: HttpStatus.CREATED,
+        description: 'Field successfully created',
+        type: Field,
+    })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        description: 'Failed to create field',
+    })
 	async create(
 		@Body() createFieldDto: CreateFieldDto,
 		@Response() res
 	): Promise<Field> {
 		try {
 			const field = await this.fieldsService.create(createFieldDto);
+			if(field && createFieldDto.options != ''){
+				await this.fieldOptionsService.create({field_id: field.id, response: createFieldDto.options})
+			}
 
 			return res.status(HttpStatus.CREATED).json({
 				code: 'FIELD_CREATED',
@@ -42,7 +58,6 @@ export class FieldsController {
 		}
 	}
 
-	@UseGuards(AuthGuard)
 	@Get('list-fields')
 	async findAll(@Response() res): Promise<Field[]> {
 		try {
@@ -61,23 +76,37 @@ export class FieldsController {
 		}
 	}
 
-	@UseGuards(AuthGuard)
-	@Post('find-field')
+	@Post('find-fields')
+	@ApiOperation({ summary: 'Get a field by ID' })
+    @ApiBody({ schema: { example: { id: 1 } } })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Field retrieved successfully',
+        type: Field,
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        description: 'Field not found',
+    })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        description: 'An error occurred while retrieving the field',
+    })
 	async findOne(
-		@Body() body: { id: number },
+		@Body() body: { survey_id: number },
 		@Response() res
 	): Promise<Field> {
 		try {
-			const { id } = body;
-			const field = await this.fieldsService.findOne(id);
+			const { survey_id } = body;
+			const field = await this.fieldsService.find(survey_id);
 			if (!field) {
 				return res.status(HttpStatus.NOT_FOUND).json({
 					code: 'FIELD_NOT_FOUND',
-					message: `Field with ID ${id} not found.`
+					message: `Field with ID ${survey_id} not found.`
 				});
 			}
 			return res.json({
-				code: 'FIELD_FOUND',
+				code: 'FIELDS_FOUND',
 				message: 'Field retrieved successfully.',
 				data: field
 			});
@@ -92,6 +121,21 @@ export class FieldsController {
 
 	@UseGuards(AuthGuard)
 	@Patch('update-field')
+	@ApiOperation({ summary: 'Update an existing field' })
+    @ApiBody({ type: UpdateFieldDto })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Field successfully updated',
+        type: Field,
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        description: 'Field not found',
+    })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        description: 'Failed to update field',
+    })
 	async update(
 		@Body() body: UpdateFieldDto & { id: number },
 		@Response() res
@@ -124,6 +168,20 @@ export class FieldsController {
 
 	@UseGuards(AuthGuard)
 	@Delete('delete-field')
+	@ApiOperation({ summary: 'Delete a field' })
+    @ApiBody({ schema: { example: { id: 1 } } })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Field has been successfully deleted.',
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        description: 'Field not found.',
+    })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        description: 'An error occurred while deleting the field.',
+    })
 	async delete(@Body() body: { id: number }, @Response() res): Promise<any> {
 		try {
 			const { id } = body;

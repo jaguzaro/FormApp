@@ -17,6 +17,7 @@ import { Survey } from './entities/survey.entity';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthGuard } from 'src/auth/auth.guardias';
 import { UsersService } from 'src/users/services/users.service';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('surveys')
 export class SurveysController {
@@ -24,6 +25,16 @@ export class SurveysController {
 
 	@UseGuards(AuthGuard)
 	@Post('create-survey')
+	@ApiOperation({ summary: 'Create a new survey' })
+	@ApiBody({ type: CreateSurveyDto })
+	@ApiResponse({
+		status: HttpStatus.CREATED,
+		description: 'Survey successfully created',
+	})
+	@ApiResponse({
+		status: HttpStatus.INTERNAL_SERVER_ERROR,
+		description: 'Failed to create survey',
+	})
 	async create(
 		@Body() createSurveyDto: CreateSurveyDto,
 		@Response() res,
@@ -49,6 +60,16 @@ export class SurveysController {
 	}
 
 	@Get('list-surveys')
+	@ApiOperation({ summary: 'List all surveys' })
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: 'List of surveys retrieved successfully.',
+		type: [Survey], // Indica que devuelve una lista de encuestas
+	})
+	@ApiResponse({
+		status: HttpStatus.INTERNAL_SERVER_ERROR,
+		description: 'Failed to retrieve surveys',
+	})
 	async findAll(@Response() res): Promise<Survey[]> {
 		try {
 			const surveys = await this.surveysService.findAll();
@@ -74,6 +95,17 @@ export class SurveysController {
 	}
 
 	@Post('find-survey')
+	@ApiOperation({ summary: 'Find a survey by ID' })
+	@ApiBody({ schema: { type: 'object', properties: { id: { type: 'number' } } } })
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: 'Survey found successfully.',
+		type: Survey,
+	})
+	@ApiResponse({
+		status: HttpStatus.NOT_FOUND,
+		description: 'Survey not found.',
+	})
 	async findOne(
 		@Body() body: { id: number },
 		@Response() res
@@ -104,17 +136,31 @@ export class SurveysController {
 		}
 	}
 
+	@UseGuards(AuthGuard)
 	@Patch('update-survey')
+	@ApiOperation({ summary: 'Update a survey by ID' })
+	@ApiBody({ type: UpdateSurveyDto }) // Define el cuerpo de la solicitud
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: 'Survey updated successfully.',
+		type: Survey,
+	})
+	@ApiResponse({
+		status: HttpStatus.NOT_FOUND,
+		description: 'Survey not found.',
+	})
 	async update(
 		@Body() body: UpdateSurveyDto & { id: number },
-		@Response() res
+		@Response() res,
+		@Request() req
 	): Promise<Survey> {
 		try {
 			const { id, ...updateSurveyDto } = body;
 
 			const updatedSurvey = await this.surveysService.update(
 				id,
-				updateSurveyDto
+				updateSurveyDto,
+				req.user.sub
 			);
 			return res.json({
 				code: 'SURVEY_UPDATED',
@@ -138,6 +184,16 @@ export class SurveysController {
 
 	@UseGuards(AuthGuard)
 	@Delete('delete-survey')
+	@ApiOperation({ summary: 'Delete a survey by ID' })
+	@ApiBody({ schema: { type: 'object', properties: { id: { type: 'number' } } } })
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: 'Survey successfully deleted.',
+	})
+	@ApiResponse({
+		status: HttpStatus.NOT_FOUND,
+		description: 'Survey not found.',
+	})
 	async delete(
 		@Body() body: { id: number },
 		@Response() res,

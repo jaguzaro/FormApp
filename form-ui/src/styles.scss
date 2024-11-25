@@ -1,11 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,600&display=swap');
 
 body {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   margin: 0;
   height: 100%;
 }
 
 html {
   height: 100%;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.title{
+  font-weight: bold;
+  font-size: 50px;
+  color: #182646;
+}
+
+.label-fields{
+  font-weight: bold;
+  color: #0cb887;
+}
+
+.card-header{
+  background-color: #0cb887;
+  border-bottom: 0;
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}
+
+.card-footer{
+  background-color: transparent;
+  border-top: 0
+}
+
+.card{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.btn-create{
+  background-color: #0cb887;
+  color: white;
+  font-weight: bold;
 }

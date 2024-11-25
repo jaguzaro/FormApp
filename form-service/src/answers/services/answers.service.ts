@@ -13,6 +13,7 @@ export class AnswersService {
 
 	async create(createAnswerDto: CreateAnswerDto): Promise<SurveyAnswer> {
 		const answer = this.answersRepository.create(createAnswerDto);
+		console.log(answer)
 		return this.answersRepository.save(answer);
 	}
 

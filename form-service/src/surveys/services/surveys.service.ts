@@ -20,7 +20,7 @@ export class SurveysService {
 		const user = await this.usersRepository.findOneBy({ id: userId });
 
 		if (!user) {
-			throw new Error('Usuario no encontrado');
+			throw new Error('User not found');
 		}
 
 		const survey = this.surveysRepository.create({
@@ -104,8 +104,15 @@ export class SurveysService {
 
 	async update(
 		id: number,
-		updateSurveyDto: UpdateSurveyDto
+		updateSurveyDto: UpdateSurveyDto,
+		userId: number
 	): Promise<Survey> {
+		const user = await this.usersRepository.findOneBy({ id: userId });
+
+		if (!user) {
+			throw new Error('User not found');
+		}
+
 		const survey = await this.surveysRepository.findOneBy({ id });
 		if (!survey) {
 			throw new Error(`Survey with ID ${id} not found`);
@@ -113,6 +120,7 @@ export class SurveysService {
 
 		Object.assign(survey, updateSurveyDto);
 		survey.date_updated = new Date();
+		survey.updated_user = user;
 
 		return this.surveysRepository.save(survey);
 	}

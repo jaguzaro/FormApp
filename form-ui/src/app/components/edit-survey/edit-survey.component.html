@@ -1,87 +1,279 @@
-<div class="col-12">
-    <div class="row justify-content-center">
+<div class="col-12 px-xl-2 px-lg-1 w-100 py-4">
+   <div class="row justify-content-center w-100 d-flex">
       <div class="col-8" [formGroup]="surveyForm">
-        <label class="title">Create Survey</label>
-        <div class="mb-3">
-          <label for="name" class="form-label label-fields">Name</label>
-          <input type="text" class="form-control" id="name" formControlName="name">
-        </div>
-        <div class="mb-3">
-          <label for="description" class="form-label label-fields">Description</label>
-          <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
-        </div>
-        <button type="button" class="btn btn-create">Edit Survey</button>
+         <label class="title">Edit Survey</label>
+         <div class="mb-3">
+            <label for="name" class="form-label label-fields">Name</label>
+            <input
+               type="text"
+               class="form-control"
+               id="name"
+               formControlName="name"
+            />
+         </div>
+         <div class="mb-3">
+            <label for="description" class="form-label label-fields"
+               >Description</label
+            >
+            <textarea
+               class="form-control"
+               id="description"
+               rows="3"
+               formControlName="description"
+            ></textarea>
+         </div>
+         <button type="button" class="btn btn-create" (click)="updateSurvey()">Edit Survey</button>
       </div>
 
       <div class="col-8 separator mt-5 mb-4"></div>
 
       <div class="col-8 d-flex flex-column" [formGroup]="createFieldForm">
-        <label class="title">Add Fields</label>
-        <div class="row">
+         <label class="title">Add Fields</label>
+         <div class="row">
+            <div class="col-6 d-flex">
+               <label
+               class="form-label label-fields"
+               >Name of field</label
+            >
+            </div>
+            <div class="col-2 d-flex align-items-center flex-column">
+               <label for="type_field" class="form-label label-fields"
+               >Type of field</label
+            >
+            </div>
+            <div class="col-2 d-flex align-items-center flex-column">
+               <label for="required_field" class="form-label label-fields"
+               >Is Required</label
+            >
+            </div>
+         </div>
+         <div class="row">
             <div class="col-6 flex-column d-flex">
-                <label for="name_field" class="form-label label-fields">Name of field</label>
-                <textarea class="form-control" id="name_field" rows="2" formControlName="name"></textarea>
+               <textarea
+                  class="form-control"
+                  id="name_field"
+                  rows="2"
+                  formControlName="name"
+               ></textarea>
             </div>
-            <div class="col-2 flex-column d-flex">
-                <label for="type_field" class="form-label label-fields">Type of field</label>
-                <select class="form-select" aria-label="Default select example" formControlName="type">
-                    <option selected>Select one</option>
-                    <option value="Number">Number</option>
-                    <option value="Text">Text</option>
-                    <option value="Date">Date</option>
-                    <option value="Multiple Choise">Multiple Choise</option>
-                    <option value="Single Choise">Single Choise</option>
-                </select>
+            <div class="col-2 flex-column d-flex align-self-center align-items-center">
+               <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  formControlName="type"
+                  (change)="onChange($event)"
+               >
+                  <option selected>Select one</option>
+                  <option value="Number">Number</option>
+                  <option value="Text">Text</option>
+                  <option value="Date">Date</option>
+                  <option value="MultipleChoice">Multiple Choice</option>
+                  <option value="SingleChoice">Single Choice</option>
+               </select>
             </div>
-            <div class="col-2 flex-column d-flex align-items-center">
-                <label for="required_field" class="form-label label-fields">Is Required</label>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" formControlName="is_required">
-                </div>
+            <div class="col-2 flex-column d-flex align-self-center align-items-center">
+               <div class="form-check form-switch">
+                  <input
+                     class="form-check-input"
+                     type="checkbox"
+                     role="switch"
+                     id="flexSwitchCheckDefault"
+                     formControlName="is_required"
+                  />
+               </div>
             </div>
-            <div class="col-2 d-flex flex-column justify-content-center align-items-center">
-                <i class="fa-solid fa-square-plus" style="color: #182646; transform: scale(1.8);" (click)="createField()"></i>
+            <div
+               class="col-2 d-flex flex-column justify-content-center align-items-center"
+            >
+               <i
+                  class="fa-solid fa-square-plus"
+                  style="color: #182646; transform: scale(1.8)"
+                  (click)="createField()"
+               ></i>
             </div>
-        </div>
+         </div>
+         <section *ngIf="viewFormOptions">
+            <div class="row pt-4">
+               <div class="col-6">
+                  <label for="name_field" class="form-label label-fields"
+                     >Name of option</label
+                  >
+                  <input
+                     #nameOption
+                     class="form-control"
+                     id="name_field"
+                     rows="2"
+                     type="text"
+                     [formControl]="textOption"
+                  />
+               </div>
+               <div
+                  class="col-1 d-flex justify-content-center align-items-center"
+               >
+                  <i
+                     class="fa-solid fa-square-plus"
+                     style="color: #182646; transform: scale(1.8)"
+                     (click)="
+                        optionsField.push(textOption.value); setOptionValue('')
+                     "
+                  ></i>
+               </div>
+            </div>
+            @for(opt of optionsField; track opt; let idx = $index){
+            <div class="row pt-4">
+               <div class="col-6">
+                  <label for="name_field" class="form-label label-fields"
+                     >Name of option</label
+                  >
+                  <input
+                     #nameOption
+                     class="form-control"
+                     id="name_field"
+                     rows="2"
+                     type="text"
+                     disabled
+                     [value]="opt"
+                  />
+               </div>
+               <div
+                  class="col-1 d-flex justify-content-center align-items-center"
+               >
+                  <i
+                     class="fa-solid fa-circle-minus"
+                     style="color: #182646; transform: scale(1.8)"
+                     (click)="optionsField.splice(idx, 1)"
+                  ></i>
+               </div>
+            </div>
+            }@empty {
+            <label>There are no fields</label>
+            }
+         </section>
       </div>
 
       <div class="col-8 separator mt-5 mb-4"></div>
 
-      <div class="col-8 d-flex flex-column" [formGroup]="fieldForm">
-        <label class="title">Modify Fields</label>
-        <form formArrayName="fields">
+      <form class="col-8 d-flex flex-column" [formGroup]="fieldForm">
+         <label class="title">Modify Fields</label>
+         <form formArrayName="fields" *ngIf="fieldsLoaded">
             @for(item of surveyFields; track item.id; let idx = $index){
-                <div class="row" [formGroupName]="idx">
-                    <div class="col-6 flex-column d-flex">
-                        <label for="name_field_u_{{idx}}" class="form-label label-fields">Name of field</label>
-                        <textarea class="form-control" id="name_field_u" rows="2" formControlName="name" [value]="item.name"></textarea>
-                    </div>
-                    <div class="col-2 flex-column d-flex">
-                        <label for="type_field" class="form-label label-fields">Type of field</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="type" [value]="item.type">
-                            <option value="Number">Number</option>
-                            <option value="Text">Text</option>
-                            <option value="Date">Date</option>
-                            <option value="Multiple Choise">Multiple Choise</option>
-                            <option value="Single Choise">Single Choise</option>
-                        </select>
-                    </div>
-                    <div class="col-2 flex-column d-flex align-items-center">
-                        <label for="required_field" class="form-label label-fields">Is Required</label>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" formControlName="is_required" [checked]="item.is_required">
+            <div class="row" [formGroupName]="idx">
+               <div class="row">
+                  <div class="col-6 d-flex">
+                     <label
+                     for="name_field_u_{{ idx }}"
+                     class="form-label label-fields"
+                     >Name of field</label
+                  >
+                  </div>
+                  <div class="col-2 d-flex align-items-center flex-column">
+                     <label for="type_field" class="form-label label-fields"
+                     >Type of field</label
+                  >
+                  </div>
+                  <div class="col-2 d-flex align-items-center flex-column">
+                     <label for="required_field" class="form-label label-fields"
+                     >Is Required</label
+                  >
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-6 flex-column d-flex align-self-center">
+                     <textarea
+                        class="form-control"
+                        id="name_field_u"
+                        rows="2"
+                        formControlName="name"
+                        [value]="item.name"
+                     ></textarea>
+                  </div>
+                  <div class="col-2 flex-column d-flex align-self-center align-items-center">
+                     <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        formControlName="type"
+                        [value]="item.type"
+                     >
+                        <option value="Number">Number</option>
+                        <option value="Text">Text</option>
+                        <option value="Date">Date</option>
+                        <option value="MultipleChoice">Multiple Choice</option>
+                        <option value="SingleChoice">Single Choice</option>
+                     </select>
+                  </div>
+                  <div class="col-2 flex-column d-flex align-self-center align-items-center">
+                     <div class="form-check form-switch">
+                        <input
+                           class="form-check-input"
+                           type="checkbox"
+                           role="switch"
+                           id="flexSwitchCheckDefault"
+                           formControlName="is_required"
+                           [checked]="item.is_required"
+                        />
+                     </div>
+                  </div>
+                  <div
+                     class="col-2 d-flex align-items-center align-self-center"
+                  >
+                        <div>
+                           <i
+                              class="fa-solid px-5" 
+                              style="color: #0cb887; transform: scale(1.5)"
+                              (click)="enableUpdate(idx)"
+                              [ngClass]="fields.at(idx).get('name')?.disabled ? 'fa-pen': 'fa-check'"
+                           ></i>
                         </div>
-                    </div>
-                    <div class="col-2 d-flex justify-content-center align-items-center">
-                        <i class="fa-solid fa-pen pe-5" style="color: #0cb887; transform: scale(1.5);"></i>
-                        <i class="fa-solid fa-trash" style="color: #f62421; transform: scale(1.5);"></i>
-                    </div>
-                </div>
+                        <div>
+                           <i
+                              class="fa-solid"
+                              style="color: #f62421; transform: scale(1.5)"
+                              (click)="disableUpdate(idx)"
+                              [ngClass]="fields.at(idx).get('name')?.disabled ? 'fa-trash': 'fa-xmark'"
+                           ></i>
+                        </div>
+                  </div>
+               </div>
+
+               @if(item.option_response != null){
+               <div formArrayName="options">
+                  @for(opt of item.option_response.split('|'); track 'opt' + '-'
+                  + opt; let idx_opt = $index){
+                  <div class="row" [formGroupName]="idx_opt">
+                     <div class="col-3 pt-3">
+                        <input
+                           #option_{{item.option_id}}
+                           class="form-control"
+                           id="option_{{ item.option_id }}"
+                           rows="2"
+                           type="text"
+                           [value]="opt"
+                           formControlName="text"
+                        />
+                     </div>
+                     <div
+                        class="col-2 d-flex justify-content-center align-items-center"
+                     >
+                        <i
+                           class="fa-solid fa-pen pe-5"
+                           style="color: #0cb887; transform: scale(1.5)"
+                           (click)="updateFieldOption(idx, idx_opt, 1)"
+                        ></i>
+                        <i
+                           class="fa-solid fa-trash"
+                           style="color: #f62421; transform: scale(1.5)"
+                           (click)="updateFieldOption(idx, idx_opt, 2)"
+                        ></i>
+                     </div>
+                  </div>
+                  }
+               </div>
+               }
+            </div>
             }@empty {
-                <label>There are no fields</label>
+            <label>There are no fields</label>
             }
-        </form>
-      </div>
-    </div>
-  </div>
-  
+         </form>
+      </form>
+   </div>
+</div>
